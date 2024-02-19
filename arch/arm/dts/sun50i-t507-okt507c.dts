@@ -1,0 +1,333 @@
+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+/*
+ * Copyright (C) 2020 Arm Ltd.
+ */
+
+/dts-v1/;
+
+#include "sun50i-h616.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/leds/common.h>
+
+/ {
+	model = "OKT507-C";
+	compatible = "forlinx,okt507-c", "allwinner,sun50i-t507", "allwinner,sun50i-h618";
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+};
+
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_ph_pins>;
+	status = "okay";
+};
+
+&r_i2c {
+	status = "okay";
+
+	axp858: pmic@36 {
+		compatible = "x-powers,axp858";
+		reg = <0x36>;
+		//#interrupt-cells = <1>;
+		//interrupt-controller;
+		//interrupt-parent = <&nmi_intc>;
+		//interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+
+		wakeup_source;
+
+		regulator0: regulators{
+			reg_dcdc1: dcdc1 {
+				regulator-name = "axp858-dcdc1";
+				regulator-min-microvolt = <1500000>;
+				regulator-max-microvolt = <3400000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_dcdc2: dcdc2 {
+				regulator-name = "axp858-dcdc2";
+				regulator-min-microvolt = <500000>;
+				regulator-max-microvolt = <1540000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-ramp-delay = <6001>; /* FIXME */
+				regulator-always-on;
+			};
+
+			reg_dcdc3: dcdc3 {
+				regulator-name = "axp858-dcdc3";
+				regulator-min-microvolt = <500000>;
+				regulator-max-microvolt = <1540000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_dcdc4: dcdc4 {
+				regulator-name = "axp858-dcdc4";
+				regulator-min-microvolt = <500000>;
+				regulator-max-microvolt = <1540000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-enable-ramp-delay = <1000>;
+			};
+
+			reg_dcdc5: dcdc5 {
+				regulator-name = "axp858-dcdc5";
+				regulator-min-microvolt = <800000>;
+				regulator-max-microvolt = <1840000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_dcdc6: dcdc6 {
+				regulator-name = "axp858-dcdc6";
+				regulator-min-microvolt = <500000>;
+				regulator-max-microvolt = <3400000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_aldo1: aldo1 {
+				regulator-name = "axp858-aldo1";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_aldo2: aldo2 {
+				regulator-name = "axp858-aldo2";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_aldo3: aldo3 {
+				regulator-name = "axp858-aldo3";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_aldo4: aldo4 {
+				regulator-name = "axp858-aldo4";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_aldo5: aldo5 {
+				regulator-name = "axp858-aldo5";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_bldo1: bldo1 {
+				regulator-name = "axp858-bldo1";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_bldo2: bldo2 {
+				regulator-name = "axp858-bldo2";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_bldo3: bldo3 {
+				regulator-name = "axp858-bldo3";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_bldo4: bldo4 {
+				regulator-name = "axp858-bldo4";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_bldo5: bldo5 {
+				regulator-name = "axp858-bldo5";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_cldo1: cldo1 {
+				regulator-name = "axp858-cldo1";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_cldo2: cldo2 {
+				regulator-name = "axp858-cldo2";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_cldo3: cldo3 {
+				regulator-name = "axp858-cldo3";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+				regulator-always-on;
+			};
+
+			reg_cldo4: cldo4 {
+				regulator-name = "axp858-cldo4";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <4200000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_cpusldo: cpusldo {
+				regulator-name = "axp858-cpusldo";
+				regulator-min-microvolt = <700000>;
+				regulator-max-microvolt = <1400000>;
+				regulator-step-delay-us = <25>;
+				regulator-final-delay-us = <50>;
+			};
+
+			reg_sw: sw {
+				regulator-name = "axp858-sw";
+			};
+		};
+
+		virtual-dcdc1 {
+			compatible = "xpower-vregulator,dcdc1";
+			dcdc1-supply = <&reg_dcdc1>;
+		};
+
+		virtual-dcdc2 {
+			compatible = "xpower-vregulator,dcdc2";
+			dcdc2-supply = <&reg_dcdc2>;
+		};
+
+		virtual-dcdc3 {
+			compatible = "xpower-vregulator,dcdc3";
+			dcdc3-supply = <&reg_dcdc3>;
+		};
+
+		virtual-dcdc4 {
+			compatible = "xpower-vregulator,dcdc4";
+			dcdc4-supply = <&reg_dcdc4>;
+		};
+
+		virtual-dcdc5 {
+			compatible = "xpower-vregulator,dcdc5";
+			dcdc5-supply = <&reg_dcdc5>;
+		};
+
+		virtual-dcdc6 {
+			compatible = "xpower-vregulator,dcdc6";
+			dcdc6-supply = <&reg_dcdc6>;
+		};
+
+		virtual-aldo1 {
+			compatible = "xpower-vregulator,aldo1";
+			aldo1-supply = <&reg_aldo1>;
+		};
+
+		virtual-aldo2 {
+			compatible = "xpower-vregulator,aldo2";
+			aldo2-supply = <&reg_aldo2>;
+		};
+
+		virtual-aldo3 {
+			compatible = "xpower-vregulator,aldo3";
+			aldo3-supply = <&reg_aldo3>;
+		};
+
+		virtual-aldo4 {
+			compatible = "xpower-vregulator,aldo4";
+			aldo4-supply = <&reg_aldo4>;
+		};
+
+		virtual-aldo5 {
+			compatible = "xpower-vregulator,aldo5";
+			aldo5-supply = <&reg_aldo5>;
+		};
+
+		virtual-bldo1 {
+			compatible = "xpower-vregulator,bldo1";
+			bldo1-supply = <&reg_bldo1>;
+		};
+
+		virtual-bldo2 {
+			compatible = "xpower-vregulator,bldo2";
+			bldo2-supply = <&reg_bldo2>;
+		};
+
+		virtual-bldo3 {
+			compatible = "xpower-vregulator,bldo3";
+			bldo3-supply = <&reg_bldo3>;
+		};
+
+		virtual-bldo4 {
+			compatible = "xpower-vregulator,bldo4";
+			bldo4-supply = <&reg_bldo4>;
+		};
+
+		virtual-bldo5 {
+			compatible = "xpower-vregulator,bldo5";
+			bldo5-supply = <&reg_bldo5>;
+		};
+
+		virtual-cldo1 {
+			compatible = "xpower-vregulator,cldo1";
+			cldo1-supply = <&reg_cldo1>;
+		};
+
+		virtual-cldo2 {
+			compatible = "xpower-vregulator,cldo2";
+			cldo2-supply = <&reg_cldo2>;
+		};
+
+		virtual-cldo3 {
+			compatible = "xpower-vregulator,cldo3";
+			cldo3-supply = <&reg_cldo3>;
+		};
+
+		virtual-cldo4 {
+			compatible = "xpower-vregulator,cldo4";
+			cldo4-supply = <&reg_cldo4>;
+		};
+	};
+};

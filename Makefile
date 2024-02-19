@@ -6,6 +6,9 @@ SUBLEVEL =
 EXTRAVERSION = -rc2
 NAME =
 
+BL31=atf/bl31.bin
+PLAT=sun50i_h616
+
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
 # More info can be located in ./README
@@ -285,8 +288,8 @@ HOST_LFS_CFLAGS := $(shell getconf LFS_CFLAGS 2>/dev/null)
 HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
 HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
 
-HOSTCC       = cc
-HOSTCXX      = c++
+HOSTCC       = ccache cc
+HOSTCXX      = ccache c++
 KBUILD_HOSTCFLAGS   := -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer \
 		$(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
 KBUILD_HOSTCXXFLAGS := -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
@@ -328,7 +331,7 @@ os_x_after = $(shell if [ $(DARWIN_MAJOR_VERSION) -ge $(1) -a \
 	$(DARWIN_MINOR_VERSION) -ge $(2) ] ; then echo "$(3)"; else echo "$(4)"; fi ;)
 
 # Snow Leopards build environment has no longer restrictions as described above
-HOSTCC       = $(call os_x_before, 10, 5, "cc", "gcc")
+HOSTCC       = ccache $(call os_x_before, 10, 5, "cc", "gcc")
 KBUILD_HOSTCFLAGS  += $(call os_x_before, 10, 4, "-traditional-cpp")
 KBUILD_HOSTLDFLAGS += $(call os_x_before, 10, 5, "-multiply_defined suppress")
 
@@ -398,8 +401,8 @@ LD		= $(CROSS_COMPILE)ld.bfd
 else
 LD		= $(CROSS_COMPILE)ld
 endif
-CC		= $(CROSS_COMPILE)gcc
-CPP		= $(CC) -E
+CC		= ccache $(CROSS_COMPILE)gcc -DLOG_DEBUG -DCONFIG_LOG_MAX_LEVEL=7
+CPP		= ccache $(CC) -E -DLOG_DEBUG -DCONFIG_LOG_MAX_LEVEL=7
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
 LDR		= $(CROSS_COMPILE)ldr

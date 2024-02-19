@@ -540,6 +540,10 @@ int mmc_get_env_dev(void)
 
 #ifdef CONFIG_SPL_BUILD
 
+#ifdef CONFIG_AXP858_POWER
+#include <pmu_axp858.h>
+#endif
+
 static void sunxi_spl_store_dram_size(phys_addr_t dram_size)
 {
 	struct boot_file_head *spl = get_spl_header(SPL_DT_HEADER_VERSION);
@@ -565,6 +569,44 @@ void sunxi_board_init(void)
 
 #ifdef CONFIG_SY8106A_POWER
 	power_failed = sy8106a_set_vout1(CONFIG_SY8106A_VOUT1_VOLT);
+#endif
+
+#if defined CONFIG_AXP858_POWER
+	power_failed = pmu_axp858_probe();
+	if (!power_failed) {
+		printf("Setting AXP858...\n");
+		#define dpmu_axp858_set_voltage(a,b,c) printf("%s = %d, %d   result=%d\n", a,b,c, pmu_axp858_set_voltage(a,b,c))
+
+		dpmu_axp858_set_voltage("dcdc1", 3300, 1);
+		dpmu_axp858_set_voltage("dcdc2", 1150, 1);
+		dpmu_axp858_set_voltage("dcdc3",  960, 1);
+		dpmu_axp858_set_voltage("dcdc4",  960, 1);
+		dpmu_axp858_set_voltage("dcdc5", 1500, 1);
+		dpmu_axp858_set_voltage("dcdc6",  700, 0);
+
+		dpmu_axp858_set_voltage("aldo1", 1800, 1);
+		dpmu_axp858_set_voltage("aldo2", 1800, 1);
+		dpmu_axp858_set_voltage("aldo3", 2500, 0);
+		dpmu_axp858_set_voltage("aldo4", 1800, 1);
+		dpmu_axp858_set_voltage("aldo5", 3300, 1);
+
+		dpmu_axp858_set_voltage("bldo1", 1800, 1);
+		dpmu_axp858_set_voltage("bldo2", 3300, 0);
+		dpmu_axp858_set_voltage("bldo3", 3300, 0);
+		dpmu_axp858_set_voltage("bldo4", 1200, 0);
+		dpmu_axp858_set_voltage("bldo5", 1200, 0);
+
+		dpmu_axp858_set_voltage("cldo1", 3300, 0);
+		dpmu_axp858_set_voltage("cldo2", 3300, 1);
+		dpmu_axp858_set_voltage("cldo3", 3300, 1);
+		dpmu_axp858_set_voltage("cldo4", 1800, 0);
+
+		dpmu_axp858_set_voltage("cpusldo", 700, 0);
+		dpmu_axp858_set_voltage("dc1sw",  3300, 1);
+
+		udelay(100000);
+		
+	}
 #endif
 
 #if defined CONFIG_AXP152_POWER || defined CONFIG_AXP209_POWER || \
