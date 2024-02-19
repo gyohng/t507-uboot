@@ -8,6 +8,7 @@ NAME =
 
 BL31=atf/bl31.bin
 PLAT=sun50i_h616
+CROSS_COMPILE=aarch64-linux-gnu-
 
 # *DOCUMENTATION*
 # To see a list of typical targets execute "make help"
