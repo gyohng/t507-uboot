@@ -277,6 +277,8 @@ static void smbios_set_eos(struct smbios_ctx *ctx, char *eos)
 	ctx->last_str = NULL;
 }
 
+int print_buffer(ulong addr, const void *data, uint width, uint count, uint linelen);
+
 int smbios_update_version(const char *version)
 {
 	char *ptr = gd->smbios_version;
