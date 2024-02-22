@@ -22,6 +22,12 @@
 	chosen {
 		stdout-path = "serial0:115200n8";
 	};
+
+sram_a1 {
+	compatible = "allwinner,sram_a1";
+	reg = <0x00 0x20000 0x00 0x8000>;
+  };
+
 };
 
 &uart0 {
