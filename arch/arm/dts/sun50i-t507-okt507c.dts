@@ -48,6 +48,19 @@
 	vdmmc18sw-supply = <&reg_aldo2>;
 };
 
+&mmc1 {
+    no-mmc;
+    no-sd;
+    cap-sd-highspeed;
+    sunxi-dis-signal-vol-sw;
+    cap-sdio-irq;
+    keep-power-in-suspend;
+    ignore-pm-notify;
+    max-frequency = <50000000>;
+    ctl-spec-caps = <0x8>;
+    status = "okay";
+};
+
 &mmc2 {
 	status = "okay";
 	vmmc-supply = <&reg_aldo1>;
@@ -364,4 +377,45 @@
 			cldo4-supply = <&reg_cldo4>;
 		};
 	};
+};
+
+&ehci0 {
+	status = "okay";
+};
+
+&ehci1 {
+	status = "okay";
+};
+
+&ehci2 {
+	status = "okay";
+};
+
+&ehci3 {
+	status = "okay";
+};
+
+&ohci0 {
+	status = "okay";
+};
+
+&ohci1 {
+	status = "okay";
+};
+
+&ohci2 {
+	status = "okay";
+};
+
+&ohci3 {
+	status = "okay";
+};
+
+&usbotg {
+	dr_mode = "peripheral";
+	status = "okay";
+};
+
+&usbphy {
+	status = "okay";
 };
