@@ -23,11 +23,10 @@
 		stdout-path = "serial0:115200n8";
 	};
 
-sram_a1 {
-	compatible = "allwinner,sram_a1";
-	reg = <0x00 0x20000 0x00 0x8000>;
-  };
-
+	sram_a1 {
+		compatible = "allwinner,sram_a1";
+		reg = <0x00 0x20000 0x00 0x8000>;
+	};
 };
 
 &uart0 {
@@ -36,11 +35,24 @@ sram_a1 {
 	status = "okay";
 };
 
+&mmc0 {
+	/*
+	 * The schematic shows the card detect pin wired up to PF6, via an
+	 * inverter, but it just doesn't work.
+	 */
+	broken-cd;
+	vmmc-supply = <&reg_dcdc1>;
+	vqmmc33sw-supply = <&reg_dcdc1>;
+	vdmmc33sw-supply = <&reg_dcdc1>;
+	vqmmc18sw-supply = <&reg_aldo2>;
+	vdmmc18sw-supply = <&reg_aldo2>;
+};
+
 &mmc2 {
 	status = "okay";
 	vmmc-supply = <&reg_aldo1>;
 	vqmmc-supply = <&reg_dcdc1>;
-    max-frequency = <100000000>;
+	max-frequency = <100000000>;
 	bus-width = <8>;
 	mmc-ddr-1_8v;
 	mmc-hs200-1_8v;
